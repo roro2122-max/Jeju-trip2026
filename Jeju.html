@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>🏝 제주 가족여행</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family:sans-serif; padding:18px; line-height:1.6; background:#fffdf8; }
+    .summary, .day { background:white; border:1px solid #ddd; border-radius:14px; padding:16px; margin:15px 0; }
+    .buttons button { padding:12px; margin:5px; border-radius:12px; border:1px solid #ccc; background:white; font-size:16px; }
+    .day { display:none; }
+    .active { display:block; }
+    textarea { width:100%; height:260px; font-size:16px; padding:10px; box-sizing:border-box; border-radius:10px; }
+    .saveBtn { width:100%; padding:14px; font-size:18px; border:none; border-radius:12px; background:#222; color:white; }
+  </style>
+</head>
+
+<body>
+
+<h2>🏝 제주 가족여행</h2>
+
+<div class="summary">
+  <b>✈️ 우리 가족 항공</b><br>
+  5/22 (금) 09:55 이스타항공 ZE209 출발<br>
+  5/26 (화) 13:45 제주항공 7C122 출발<br><br>
+
+  <b>🏠 숙소</b><br>
+  5/22~5/25 롯데아트빌라 이종호룸 3박<br>
+  5/25~5/26 겐고쿠마룸 1박<br><br>
+
+  <b>⛳ 골프</b><br>
+  5/24 (일) 07:16 어른 3명<br>
+  5/25 (월) 12:59 어른 3명
+</div>
+
+<h3>📅 요일 선택</h3>
+<div class="buttons">
+  <button onclick="showDay('d1')">금 5/22</button>
+  <button onclick="showDay('d2')">토 5/23</button>
+  <button onclick="showDay('d3')">일 5/24</button>
+  <button onclick="showDay('d4')">월 5/25</button>
+  <button onclick="showDay('d5')">화 5/26</button>
+</div>
+
+<div id="d1" class="day active"><h3>5/22 금요일</h3><textarea id="d1text"></textarea></div>
+<div id="d2" class="day"><h3>5/23 토요일</h3><textarea id="d2text"></textarea></div>
+<div id="d3" class="day"><h3>5/24 일요일</h3><textarea id="d3text"></textarea></div>
+<div id="d4" class="day"><h3>5/25 월요일</h3><textarea id="d4text"></textarea></div>
+<div id="d5" class="day"><h3>5/26 화요일</h3><textarea id="d5text"></textarea></div>
+
+<button class="saveBtn" onclick="save()">저장하기</button>
+
+<script>
+const defaultData = {
+  d1:
+"✈️ 09:55 이스타항공 ZE209 출발\n🚗 제주 도착 후 렌터카 픽업\n🍽 점심: 공항 근처 식사\n🏠 롯데아트빌라 체크인\n🚶 오후: 숙소 산책\n♨️ 자쿠지\n🥩 저녁: 근처 고깃집",
+
+  d2:
+"🍽 아침: 조식 배달\n🏊 오전: 호텔 커뮤니티 수영장\n🍱 점심: 숙소 내 해결\n🚤 오후: 잠수함 체험\n🍽 저녁: 잠수함 스팟 근처 맛집",
+
+  d3:
+"🍽 아침: 숙소 내 해결\n🐎 오전: 승마\n⛳ 07:16 골프 라운딩 / 어른 3명\n🐟 점심: 갈치구이\n📍 오후: 중문 근처 관광지\n🍱 저녁: 숙소 해결\n🏠 롯데아트빌라 숙박",
+
+  d4:
+"🍽 아침: 숙소 내 해결\n🚪 오전: 롯데아트빌라 체크아웃\n🚶 오전: 한솔슬기 간단 투어\n🍱 점심: 간단 해결\n⛳ 12:59 골프 라운딩 / 어른 3명\n☕ 오후: 비워둠\n🏠 겐고쿠마룸 체크인",
+
+  d5:
+"🍽 아침: 숙소 내 해결\n🚪 겐고쿠마룸 체크아웃\n✈️ 13:45 제주항공 7C122 출발"
+};
+
+function showDay(id) {
+  document.querySelectorAll(".day").forEach(function(day) {
+    day.classList.remove("active");
+  });
+  document.getElementById(id).classList.add("active");
+}
+
+function save() {
+  const data = {
+    d1: document.getElementById("d1text").value,
+    d2: document.getElementById("d2text").value,
+    d3: document.getElementById("d3text").value,
+    d4: document.getElementById("d4text").value,
+    d5: document.getElementById("d5text").value
+  };
+  localStorage.setItem("jejuSchedule_v2", JSON.stringify(data));
+  alert("저장 완료!");
+}
+
+function load() {
+  const saved = JSON.parse(localStorage.getItem("jejuSchedule_v2")) || defaultData;
+
+  document.getElementById("d1text").value = saved.d1;
+  document.getElementById("d2text").value = saved.d2;
+  document.getElementById("d3text").value = saved.d3;
+  document.getElementById("d4text").value = saved.d4;
+  document.getElementById("d5text").value = saved.d5;
+}
+
+load();
+</script>
+
+</body>
+</html>
